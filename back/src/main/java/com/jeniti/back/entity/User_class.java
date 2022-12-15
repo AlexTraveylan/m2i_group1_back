@@ -16,7 +16,7 @@ public class User_class {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
@@ -27,6 +27,5 @@ public class User_class {
 
     @ManyToOne
     @JoinColumn(name = "current_channel_id")
-    @Column(nullable = false)
     private Channel current_channel;
 }
