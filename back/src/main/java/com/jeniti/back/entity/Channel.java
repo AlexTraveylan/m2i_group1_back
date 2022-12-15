@@ -24,9 +24,11 @@ public class Channel {
     private Date created_at;
 
     @NonNull
+    @Column(nullable = false)
     private String description;
 
     @NonNull
+    @Column(nullable = false)
     private String name;
 
 }
