@@ -28,7 +28,7 @@ public class Channel {
     private String description;
 
     @NonNull
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
 }
