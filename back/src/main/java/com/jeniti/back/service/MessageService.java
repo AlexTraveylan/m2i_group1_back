@@ -1,8 +1,7 @@
 package com.jeniti.back.service;
 
 import com.jeniti.back.entity.Message;
-import com.jeniti.back.repository.MessageRepository;
-import com.jeniti.back.repository.MessageRepository;
+import com.jeniti.back.repository.IMessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +11,7 @@ import java.util.Optional;
 public class MessageService {
 
     @Autowired
-    public MessageRepository mRepository;
+    public IMessageRepository mRepository;
 
     public Message createMessage(Message m){
         return mRepository.save(m);

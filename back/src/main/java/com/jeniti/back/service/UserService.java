@@ -1,10 +1,9 @@
 package com.jeniti.back.service;
 
 import com.jeniti.back.entity.User_class;
-import com.jeniti.back.repository.UserRepository;
+import com.jeniti.back.repository.IUserRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,7 +13,7 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
-    private UserRepository uRepository;
+    private IUserRepository uRepository;
 
 
     public User_class UpdateUser(User_class user) {

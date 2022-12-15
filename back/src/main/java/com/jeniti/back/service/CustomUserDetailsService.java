@@ -1,7 +1,7 @@
 package com.jeniti.back.service;
 
 import com.jeniti.back.entity.User_class;
-import com.jeniti.back.repository.UserRepository;
+import com.jeniti.back.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserRepository uRepository;
+    private IUserRepository uRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

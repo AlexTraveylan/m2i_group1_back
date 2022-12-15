@@ -3,7 +3,7 @@ package com.jeniti.back.controller;
 
 import com.jeniti.back.entity.User_class;
 import com.jeniti.back.model.UserModel;
-import com.jeniti.back.repository.UserRepository;
+import com.jeniti.back.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ public class SecurityController {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
 
     @Autowired
     private AuthenticationManager authenticationManager;
