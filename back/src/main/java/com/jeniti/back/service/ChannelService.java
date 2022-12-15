@@ -19,4 +19,7 @@ public class ChannelService {
         return cRepository.findAll();
     }
 
+    public void deleteChannel(long id) {
+        cRepository.deleteById(id);
+    }
 }

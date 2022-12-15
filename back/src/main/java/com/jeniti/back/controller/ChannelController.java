@@ -22,4 +22,7 @@ public class ChannelController {
     public Channel createChannel(@RequestBody Channel channel) {
         return cService.createChannel(channel);
     }
+    @DeleteMapping("/{id}")
+    public void deleteChannel (@PathVariable long id)
+    { cService.deleteChannel(id);}
 }
