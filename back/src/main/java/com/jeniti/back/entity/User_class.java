@@ -27,6 +27,5 @@ public class User_class {
 
     @ManyToOne
     @JoinColumn(name = "current_channel_id")
-    @Column(nullable = false)
     private Channel current_channel;
 }

@@ -25,12 +25,12 @@ public class MessageController {
     }
 
     @PostMapping
-    public Message createMessage(Message m){
+    public Message createMessage(@RequestBody Message m){
         return mService.createMessage(m);
     }
 
-    @DeleteMapping
-    public String deleteMessage(Long id){
+    @DeleteMapping("/{id}")
+    public String deleteMessage(@PathVariable Long id){
         return mService.deleteMessage(id);
     }
 
