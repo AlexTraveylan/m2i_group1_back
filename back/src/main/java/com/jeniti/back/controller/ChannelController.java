@@ -1,12 +1,8 @@
 package com.jeniti.back.controller;
 
-
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.jeniti.back.entity.Channel;
 import com.jeniti.back.service.ChannelService;
-import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -28,8 +24,11 @@ public class ChannelController {
         return cService.createChannel(channel);
     }
     @DeleteMapping("/{id}")
-    public void deleteChannel (@PathVariable long id)
-    { cService.deleteChannel(id);}
+    public void deleteChannel (@PathVariable long id) {
+        if (id != 1) {
+            cService.deleteChannel(id);}
+        }
+
 
     @GetMapping("/{id}")
     public Optional<Channel> findByChannelId(@PathVariable long id)
@@ -42,16 +41,19 @@ public class ChannelController {
             Channel mChannel = channel.get();
             String cDescription = c.getDescription();
             String cName = c.getName();
+
             if (null != cDescription) {
                 mChannel.setDescription(cDescription);
             }else {
                 System.out.println("updateChannel description null");
             }
+
             if (null != cName) {
                 mChannel.setName(cName);
             }else {
                 System.out.println("updateChannel Name null");
             }
+
             return cService.updateChannel(mChannel);
         }else {
             return null;
