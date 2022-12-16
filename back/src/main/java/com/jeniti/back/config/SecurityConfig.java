@@ -27,6 +27,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/register", "/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
+                .logout().logoutUrl("/logout")
+                .invalidateHttpSession(true).deleteCookies()
+                .and()
                 .httpBasic();
     }
 
