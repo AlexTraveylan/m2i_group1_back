@@ -3,8 +3,12 @@ package com.jeniti.back.controller;
 
 import com.jeniti.back.entity.Channel;
 import com.jeniti.back.service.ChannelService;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/channels")
@@ -25,4 +29,9 @@ public class ChannelController {
     @DeleteMapping("/{id}")
     public void deleteChannel (@PathVariable long id)
     { cService.deleteChannel(id);}
+
+    @GetMapping("/{id}")
+    public Optional<Channel> findByChannelId(@PathVariable long id)
+    {return cService.getByIdChannel(id);}
+
 }
