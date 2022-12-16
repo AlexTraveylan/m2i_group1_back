@@ -1,7 +1,10 @@
 package com.jeniti.back.service;
 
 import com.jeniti.back.entity.Channel;
+import com.jeniti.back.entity.User_class;
 import com.jeniti.back.repository.IChannelRepository;
+import com.jeniti.back.repository.IMessageRepository;
+import com.jeniti.back.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +14,11 @@ import java.util.Optional;
 public class ChannelService {
 
     @Autowired
-    public IChannelRepository cRepository;
+    private IChannelRepository cRepository;
+    @Autowired
+    private IUserRepository uRepository;
+    @Autowired
+    IMessageRepository mRepository;
 
     public Channel createChannel(Channel channel) {
         return cRepository.save(channel);
@@ -22,6 +29,10 @@ public class ChannelService {
     }
 
     public void deleteChannel(long id) {
+        Channel c = cRepository.findById(id).orElse(null);
+        Channel g = cRepository.findById(1L).orElse(null);
+        uRepository.setChannelGeneral(c, g);
+        mRepository.deleteMessageByChannel_id(c);
         cRepository.deleteById(id);
     }
 

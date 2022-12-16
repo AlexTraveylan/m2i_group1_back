@@ -29,7 +29,7 @@ public class Message {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updated_at;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "channel_id")
     private Channel channel_id;
 
