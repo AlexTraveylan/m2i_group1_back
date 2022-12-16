@@ -28,4 +28,8 @@ public class ChannelService {
     public Optional<Channel> getByIdChannel(long id) {
         return cRepository.findById(id);
     }
+
+    public Channel updateChannel(Channel c) {
+        return cRepository.save(c);
+    }
 }
