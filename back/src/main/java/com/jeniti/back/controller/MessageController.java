@@ -36,17 +36,23 @@ public class MessageController {
     }
 
     @PostMapping
-    public ResponseEntity<Message> createMessage(@RequestBody Message m){
-        Optional<User_class> u = uService.getUser(m.getUser_id().getId());
-        if (u.isPresent()) {
-            User_class currentUser = u.get();
-            m.setUser_id(currentUser);
-            m.setChannel_id(currentUser.getCurrent_channel());
-            return ResponseEntity.ok(mService.createMessage(m));
+    public ResponseEntity<Message> createMessage(@RequestBody Message m) {
+
+        if (m.getUser_id() != null && m.getUser_id().getId() != null) {
+            Optional<User_class> u = uService.getUser(m.getUser_id().getId());
+            if (u.isPresent()) {
+                User_class currentUser = u.get();
+                m.setUser_id(currentUser);
+                m.setChannel_id(currentUser.getCurrent_channel());
+                return ResponseEntity.ok(mService.createMessage(m));
+            } else {
+                return ResponseEntity.notFound().build();
+            }
         } else {
             return ResponseEntity.badRequest().build();
         }
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMessage(@PathVariable Long id){
