@@ -1,7 +1,9 @@
 package com.jeniti.back.controller;
 
 import com.jeniti.back.entity.Message;
+import com.jeniti.back.entity.User_class;
 import com.jeniti.back.service.MessageService;
+import com.jeniti.back.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,9 @@ public class MessageController {
 
     @Autowired
     private MessageService mService;
+
+    @Autowired
+    private UserService uService;
 
     @GetMapping
     public Iterable<Message> getAllMessages(){
@@ -26,7 +31,16 @@ public class MessageController {
 
     @PostMapping
     public Message createMessage(@RequestBody Message m){
-        return mService.createMessage(m);
+        Optional<User_class> u = uService.getUser(m.getUser_id().getId());
+
+        if (u.isPresent()) {
+            User_class currentUser = u.get();
+            m.setUser_id(currentUser);
+            m.setChannel_id(currentUser.getCurrent_channel());
+            return mService.createMessage(m);
+        } else {
+            return null;
+        }
     }
 
     @DeleteMapping("/{id}")
