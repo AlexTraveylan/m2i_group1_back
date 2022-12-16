@@ -19,6 +19,10 @@ public interface IUserRepository extends JpaRepository<User_class, Long> {
     void setChannelGeneral(Channel c, Channel g);
 
 
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM Message m WHERE m.user_id = :u")
+    void deleteMessageByUser(User_class u);
 
 
 }

@@ -28,6 +28,8 @@ public class UserService {
 
 
     public void deleteUser(final Long id) {
+        User_class user = uRepository.findById(id).orElse(null);
+        uRepository.deleteMessageByUser(user);
         uRepository.deleteById(id);
     }
 
