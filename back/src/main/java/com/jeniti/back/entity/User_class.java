@@ -25,7 +25,7 @@ public class User_class {
     @Column(nullable = false)
     private String username;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "current_channel_id")
     private Channel current_channel;
 }
