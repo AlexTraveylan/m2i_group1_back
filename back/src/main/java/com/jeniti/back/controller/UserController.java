@@ -2,6 +2,7 @@ package com.jeniti.back.controller;
 
 import com.jeniti.back.entity.Channel;
 import com.jeniti.back.entity.User_class;
+import com.jeniti.back.service.ChannelService;
 import com.jeniti.back.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +18,9 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private UserService uService;
+
+    @Autowired
+    private ChannelService cService;
 
     @GetMapping
     public Iterable<User_class> getAllUsers() {
@@ -40,7 +44,7 @@ public class UserController {
             User_class currentUser = u.get();
 
             String email = user.getEmail();
-            if (email !=null) {
+            if (email != null) {
                 currentUser.setEmail(email);
             }
 
@@ -49,14 +53,19 @@ public class UserController {
                 currentUser.setPassword(passwordEncoder.encode(password));
             }
 
-            String username = user.getUsername();;
-            if (username != null ) {
+            String username = user.getUsername();
+            ;
+            if (username != null) {
                 currentUser.setUsername(username);
             }
 
             Channel current_channel = user.getCurrent_channel();
-            if (current_channel != null) {
-                currentUser.setCurrent_channel(current_channel);
+            if (current_channel != null && current_channel.getId() != null) {
+                Long current_channel_id = current_channel.getId();
+                Optional<Channel> c = cService.getByIdChannel(current_channel_id);
+                if (c.isPresent()) {
+                    currentUser.setCurrent_channel(c.get());
+                }
             }
 
             return uService.UpdateUser(currentUser);
