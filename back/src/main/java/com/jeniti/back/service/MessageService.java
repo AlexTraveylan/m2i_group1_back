@@ -21,13 +21,12 @@ public class MessageService {
         return mRepository.findAll();
     }
 
-    public Optional<Message> getMessageById(Long id){
-        return mRepository.findById(id);
+    public Message getMessageById(Long id) throws Exception{
+        return mRepository.findById(id).orElseThrow(Exception::new);
     }
 
-    public String deleteMessage(Long id){
+    public void deleteMessage(Long id){
         mRepository.deleteById(id);
-        return "message #" + id + " deleted";
     }
 
     public Message updateMessage(Message m){

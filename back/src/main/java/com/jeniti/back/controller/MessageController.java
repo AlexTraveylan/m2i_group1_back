@@ -5,7 +5,9 @@ import com.jeniti.back.entity.User_class;
 import com.jeniti.back.service.MessageService;
 import com.jeniti.back.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.Optional;
 
@@ -20,52 +22,55 @@ public class MessageController {
     private UserService uService;
 
     @GetMapping
-    public Iterable<Message> getAllMessages(){
-        return mService.getAllMessages();
+    public ResponseEntity<Iterable<Message>> getAllMessages(){
+        return ResponseEntity.ok(mService.getAllMessages());
     }
 
     @GetMapping("/{id}")
-    public Optional<Message> getMessageById(@PathVariable Long id){
-        return mService.getMessageById(id);
+    public ResponseEntity<Message> getMessageById(@PathVariable Long id){
+        try{
+            return ResponseEntity.ok(mService.getMessageById(id));
+        }catch(Exception e){
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
-    public Message createMessage(@RequestBody Message m){
+    public ResponseEntity<Message> createMessage(@RequestBody Message m){
         Optional<User_class> u = uService.getUser(m.getUser_id().getId());
-
         if (u.isPresent()) {
             User_class currentUser = u.get();
             m.setUser_id(currentUser);
             m.setChannel_id(currentUser.getCurrent_channel());
-            return mService.createMessage(m);
+            return ResponseEntity.ok(mService.createMessage(m));
         } else {
-            return null;
+            return ResponseEntity.badRequest().build();
         }
     }
 
     @DeleteMapping("/{id}")
-    public String deleteMessage(@PathVariable Long id){
-        return mService.deleteMessage(id);
+    public ResponseEntity<Void> deleteMessage(@PathVariable Long id){
+       try{
+           mService.deleteMessage(mService.getMessageById(id).getId());
+           return ResponseEntity.ok().build();
+       }catch(Exception e){
+           return ResponseEntity.notFound().build();
+       }
     }
 
     @PutMapping("/{id}")
-    public Message updateMessage(@PathVariable Long id, @RequestBody Message m){
-        Optional<Message> message = mService.getMessageById(id);
-        if(message.isPresent()){
-            Message nMessage = message.get();
+    public ResponseEntity<Message> updateMessage(@PathVariable Long id, @RequestBody Message m){
+        try{
+            Message nMessage = mService.getMessageById(id);
             String mContent = m.getContent();
-            if(null != mContent){
-                nMessage.setContent(mContent);
-            }else{
-                System.out.println("updateMessage content null");
-            }
-            return mService.updateMessage(nMessage);
-        }else{
-            return null;
+                if(null != mContent) {
+                    nMessage.setContent(mContent);
+                    return ResponseEntity.ok(mService.updateMessage(nMessage));
+                }else{
+                    return ResponseEntity.notFound().build();
+                }
+        }catch(Exception e){
+            return ResponseEntity.notFound().build();
         }
-
-
-
-
     }
 }
