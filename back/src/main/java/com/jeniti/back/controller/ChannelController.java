@@ -37,7 +37,7 @@ public class ChannelController {
     @PutMapping("/{id}")
     public Channel updateChannel(@PathVariable Long id, @RequestBody Channel c) {
         Optional<Channel> channel = cService.getByIdChannel(id);
-        if(channel.isPresent()) {
+        if(channel.isPresent() && 1!=id) {
             Channel mChannel = channel.get();
             String cDescription = c.getDescription();
             String cName = c.getName();
