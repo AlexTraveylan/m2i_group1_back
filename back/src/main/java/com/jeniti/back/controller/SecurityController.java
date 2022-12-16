@@ -1,9 +1,11 @@
 package com.jeniti.back.controller;
 
 
+import com.jeniti.back.entity.Channel;
 import com.jeniti.back.entity.User_class;
 import com.jeniti.back.model.UserModel;
 import com.jeniti.back.repository.IUserRepository;
+import com.jeniti.back.service.ChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +31,14 @@ public class SecurityController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private ChannelService cService;
+
     @PostMapping("/register")
     public User_class register(@RequestBody User_class user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        Channel channel = cService.getByIdChannel(1).get();
+        user.setCurrent_channel(channel);
         userRepository.save(user);
         return user;
     }
