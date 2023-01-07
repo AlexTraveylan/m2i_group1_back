@@ -30,7 +30,7 @@ public class ChannelController {
             Optional<Channel> channel = cService.getByIdChannel(id);
             if (channel.isPresent()) {
                 cService.deleteChannel(id);
-                return ResponseEntity.ok("Le channel n°" + id + " a bien été supprimé");
+                return ResponseEntity.ok().build();
             } else {
                 return ResponseEntity.notFound().build();
             }
