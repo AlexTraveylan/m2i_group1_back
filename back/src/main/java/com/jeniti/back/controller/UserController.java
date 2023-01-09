@@ -61,6 +61,11 @@ public class UserController {
                 currentUser.setUsername(username);
             }
 
+            Boolean isLogged = user.getIsLogged();
+            if (isLogged != null) {
+                currentUser.setIsLogged(isLogged);
+            }
+
             Channel current_channel = user.getCurrent_channel();
             if (current_channel != null) {
                 if (current_channel.getId() != null) {

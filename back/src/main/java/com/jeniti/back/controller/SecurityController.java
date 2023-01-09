@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 public class SecurityController {
 
@@ -39,12 +41,13 @@ public class SecurityController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         Channel channel = cService.getByIdChannel(1).get();
         user.setCurrent_channel(channel);
+        user.setIsLogged(false);
         userRepository.save(user);
         return user;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<HttpStatus> login(@RequestBody UserModel userModel) throws Exception {
+    public ResponseEntity login(@RequestBody UserModel userModel) throws Exception {
         Authentication authentication;
         try {
             authentication = authenticationManager.authenticate(
@@ -52,8 +55,16 @@ public class SecurityController {
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (BadCredentialsException e) {
-            throw new Exception("Invalid credentials");
+            return ResponseEntity.notFound().build();
         }
-        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+        Optional<User_class> c = userRepository.findByEmail(userModel.getEmail());
+        if (c.isPresent()) {
+            User_class currentUser = c.get();
+            currentUser.setIsLogged(true);
+            userRepository.save(currentUser);
+            return ResponseEntity.ok(currentUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
