@@ -38,6 +38,7 @@ public class SecurityController {
 
     @PostMapping("/register")
     public User_class register(@RequestBody User_class user) {
+        System.out.println(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         Channel channel = cService.getByIdChannel(1).get();
         user.setCurrent_channel(channel);
