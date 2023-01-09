@@ -15,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,7 +39,6 @@ public class SecurityController {
 
     @PostMapping("/register")
     public User_class register(@RequestBody User_class user) {
-        System.out.println(user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         Channel channel = cService.getByIdChannel(1).get();
         user.setCurrent_channel(channel);
@@ -67,5 +67,18 @@ public class SecurityController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity logout(@RequestBody User_class user) {
+        Optional<User_class> u = userRepository.findById(user.getId());
+        if (u.isPresent()) {
+            User_class currentUser = u.get();
+            currentUser.setIsLogged(false);
+            return ResponseEntity.ok(currentUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 }
