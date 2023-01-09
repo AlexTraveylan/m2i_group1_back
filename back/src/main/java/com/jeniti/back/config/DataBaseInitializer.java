@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 
 @Configuration
 @Transactional
@@ -20,6 +21,7 @@ public class DataBaseInitializer implements CommandLineRunner {
         channel.setId(1L);
         channel.setName("Général");
         channel.setDescription("Canal de tous et surtout de toutes!");
+        channel.setCreated_at(new Date());
         channelRepository.save(channel);
     }
 }
