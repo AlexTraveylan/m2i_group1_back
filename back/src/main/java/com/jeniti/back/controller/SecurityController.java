@@ -15,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,9 +43,9 @@ public class SecurityController {
         userRepository.save(user);
         return user;
     }
-
+    @CrossOrigin(exposedHeaders = "*")
     @PostMapping("/login")
-    public ResponseEntity<HttpStatus> login(@RequestBody UserModel userModel) throws Exception {
+    public ResponseEntity login(@RequestBody UserModel userModel) throws Exception {
         Authentication authentication;
         try {
             authentication = authenticationManager.authenticate(
@@ -54,6 +55,6 @@ public class SecurityController {
         } catch (BadCredentialsException e) {
             throw new Exception("Invalid credentials");
         }
-        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+        return ResponseEntity.ok(authentication);
     }
 }
