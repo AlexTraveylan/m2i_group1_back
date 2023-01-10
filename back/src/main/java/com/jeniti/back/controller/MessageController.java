@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -24,6 +26,18 @@ public class MessageController {
     @GetMapping
     public ResponseEntity<Iterable<Message>> getAllMessages(){
         return ResponseEntity.ok(mService.getAllMessages());
+    }
+
+    @GetMapping("/channel/{channelId}")
+    public ResponseEntity getMessageByChannelId(@PathVariable Long channelId) {
+        Iterable<Message> allMessages = mService.getAllMessages();
+        List<Message> messageOnChannel = new ArrayList<>();
+        allMessages.forEach((message) -> {
+            if (message.getChannel_id().getId() == channelId) {
+                messageOnChannel.add(message);
+            }
+        });
+        return ResponseEntity.ok(messageOnChannel);
     }
 
     @GetMapping("/{id}")

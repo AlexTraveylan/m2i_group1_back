@@ -43,13 +43,9 @@ public class UserController {
 
     @GetMapping("/find/{id}/{sessionID}")
     public ResponseEntity<User_class> getUserBySessionID(@PathVariable("sessionID") final String sessionID, @PathVariable("id") final long id) {
-        System.out.println(id);
-        System.out.println(sessionID);
-        System.out.println(sessionID.getClass());
         Optional<User_class> u = uService.getUserBySessionID(sessionID);
         if (u.isPresent()) {
             User_class currentUser = u.get();
-            System.out.println(currentUser);
             return ResponseEntity.ok(currentUser);
         } else {
             System.out.println("not present");
