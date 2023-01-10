@@ -4,6 +4,7 @@ package com.jeniti.back.controller;
 import com.jeniti.back.entity.Channel;
 import com.jeniti.back.entity.User_class;
 import com.jeniti.back.model.UserModel;
+import com.jeniti.back.model.UserSession;
 import com.jeniti.back.repository.IUserRepository;
 import com.jeniti.back.service.ChannelService;
 import com.jeniti.back.uuid.Uuidperso;
@@ -71,17 +72,17 @@ public class SecurityController {
     }
 
     @PostMapping("/logOut")
-    public ResponseEntity logout(@RequestBody User_class user) {
-        Optional<User_class> u = userRepository.findById(user.getId());
+    public ResponseEntity logout(@RequestBody UserSession userSession) {
+        Optional<User_class> u = userRepository.findBySessionId(userSession.getSessionId());
         if (u.isPresent()) {
             User_class currentUser = u.get();
-            currentUser.setIsLogged(false);
-            currentUser.setSessionId(null);
-            userRepository.save(currentUser);
-            return ResponseEntity.ok(currentUser);
-        } else {
-            return ResponseEntity.notFound().build();
+            if (currentUser.getId() == userSession.getId()) {
+                currentUser.setIsLogged(false);
+                currentUser.setSessionId(null);
+                userRepository.save(currentUser);
+                return ResponseEntity.ok(currentUser);
+            }
         }
-
+        return ResponseEntity.notFound().build();
     }
 }
