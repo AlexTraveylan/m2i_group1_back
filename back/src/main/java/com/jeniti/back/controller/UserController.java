@@ -6,11 +6,13 @@ import com.jeniti.back.service.ChannelService;
 import com.jeniti.back.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpResponse;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
@@ -37,6 +39,22 @@ public class UserController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/find/{id}/{sessionID}")
+    public ResponseEntity<User_class> getUserBySessionID(@PathVariable("sessionID") final String sessionID, @PathVariable("id") final long id) {
+        System.out.println(id);
+        System.out.println(sessionID);
+        System.out.println(sessionID.getClass());
+        Optional<User_class> u = uService.getUserBySessionID(sessionID);
+        if (u.isPresent()) {
+            User_class currentUser = u.get();
+            System.out.println(currentUser);
+            return ResponseEntity.ok(currentUser);
+        } else {
+            System.out.println("not present");
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")

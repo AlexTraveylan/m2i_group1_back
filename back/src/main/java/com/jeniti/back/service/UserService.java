@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Data
@@ -18,6 +19,10 @@ public class UserService {
 
     public User_class UpdateUser(User_class user) {
         return uRepository.save(user);
+    }
+
+    public Optional<User_class> getUserBySessionID(String sessionID) {
+        return uRepository.findBySessionId(sessionID);
     }
 
     public Optional<User_class> getUser(final Long id) {

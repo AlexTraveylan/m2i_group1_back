@@ -13,7 +13,9 @@ import java.util.UUID;
 public interface IUserRepository extends JpaRepository<User_class, Long> {
 
     Optional<User_class> findByEmail(String email);
-    Optional<User_class> findBySessionID(UUID uuid);
+
+//    @Query("SELECT u FROM User_class u WHERE u.sessionID = :uuid")
+    Optional<User_class> findBySessionId(String uuid);
 
     @Transactional
     @Modifying

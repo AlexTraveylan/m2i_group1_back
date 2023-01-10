@@ -6,8 +6,8 @@ import com.jeniti.back.entity.User_class;
 import com.jeniti.back.model.UserModel;
 import com.jeniti.back.repository.IUserRepository;
 import com.jeniti.back.service.ChannelService;
+import com.jeniti.back.uuid.Uuidperso;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,7 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,7 +62,7 @@ public class SecurityController {
         if (c.isPresent()) {
             User_class currentUser = c.get();
             currentUser.setIsLogged(true);
-            currentUser.setSessionID(UUID.randomUUID());
+            currentUser.setSessionId(Uuidperso.randomUUIDperso());
             userRepository.save(currentUser);
             return ResponseEntity.ok(currentUser);
         } else {
@@ -77,7 +76,7 @@ public class SecurityController {
         if (u.isPresent()) {
             User_class currentUser = u.get();
             currentUser.setIsLogged(false);
-            currentUser.setSessionID(null);
+            currentUser.setSessionId(null);
             userRepository.save(currentUser);
             return ResponseEntity.ok(currentUser);
         } else {

@@ -31,7 +31,7 @@ public class User_class {
     @Column(nullable = false)
     private Boolean isLogged;
 
-    private UUID sessionID;
+    private String sessionId;
 
     @OneToOne
     @JoinColumn(name = "current_channel_id")
