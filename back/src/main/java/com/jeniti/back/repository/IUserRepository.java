@@ -8,10 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface IUserRepository extends JpaRepository<User_class, Long> {
 
     Optional<User_class> findByEmail(String email);
+    Optional<User_class> findBySessionID(UUID uuid);
 
     @Transactional
     @Modifying

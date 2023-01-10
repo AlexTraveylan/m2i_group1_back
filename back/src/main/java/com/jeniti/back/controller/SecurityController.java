@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 public class SecurityController {
@@ -62,6 +63,7 @@ public class SecurityController {
         if (c.isPresent()) {
             User_class currentUser = c.get();
             currentUser.setIsLogged(true);
+            currentUser.setSessionID(UUID.randomUUID());
             userRepository.save(currentUser);
             return ResponseEntity.ok(currentUser);
         } else {
@@ -75,6 +77,7 @@ public class SecurityController {
         if (u.isPresent()) {
             User_class currentUser = u.get();
             currentUser.setIsLogged(false);
+            currentUser.setSessionID(null);
             userRepository.save(currentUser);
             return ResponseEntity.ok(currentUser);
         } else {

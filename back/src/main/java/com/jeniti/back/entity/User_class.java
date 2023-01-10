@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -29,6 +30,8 @@ public class User_class {
 
     @Column(nullable = false)
     private Boolean isLogged;
+
+    private UUID sessionID;
 
     @OneToOne
     @JoinColumn(name = "current_channel_id")
