@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ### BASE DE DONNEE ###
-src/main/resources/application.properties
+.properties
