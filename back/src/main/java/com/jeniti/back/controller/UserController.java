@@ -30,8 +30,15 @@ public class UserController {
     private ChannelService cService;
 
     @GetMapping
-    public Iterable<User_class> getAllUsers() {
-        return uService.getAllUsers();
+    public List<UsersForFront> getAllUsers() {
+        Iterable<User_class> allUsers = uService.getAllUsers();
+        List<UsersForFront>  usersOnChannel = new ArrayList<>();
+
+        allUsers.forEach(user -> {
+                usersOnChannel.add(new UsersForFront(user.getId(), user.getUsername(), user.getIsLogged(), user.getCurrent_channel()));
+        });
+
+        return usersOnChannel;
     }
 
     @GetMapping("/{id}")

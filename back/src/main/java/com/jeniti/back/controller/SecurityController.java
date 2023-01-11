@@ -80,6 +80,7 @@ public class SecurityController {
                 currentUser.setIsLogged(false);
                 currentUser.setSessionId(null);
                 userRepository.save(currentUser);
+                currentUser.setPassword("Je le garde secret");
                 return ResponseEntity.ok(currentUser);
             }
         }
