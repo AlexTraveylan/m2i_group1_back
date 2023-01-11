@@ -2,6 +2,7 @@ package com.jeniti.back.controller;
 
 import com.jeniti.back.entity.Channel;
 import com.jeniti.back.entity.User_class;
+import com.jeniti.back.model.UsersForFront;
 import com.jeniti.back.service.ChannelService;
 import com.jeniti.back.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -51,6 +54,19 @@ public class UserController {
             System.out.println("not present");
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/channel/{channelId}")
+    public List<UsersForFront> getUsersbyChannelId(@PathVariable("channelId") final long channelId) {
+        Iterable<User_class> allUsers = uService.getAllUsers();
+        List<UsersForFront>  usersOnChannel = new ArrayList<>();
+
+        allUsers.forEach(user -> {
+            if (user.getCurrent_channel().getId() == channelId) {
+                usersOnChannel.add(new UsersForFront(user.getId(), user.getUsername(), user.getIsLogged(), user.getCurrent_channel()));
+            }
+        });
+        return usersOnChannel;
     }
 
     @PutMapping("/{id}")
